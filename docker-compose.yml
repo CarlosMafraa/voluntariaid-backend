@@ -1,0 +1,19 @@
+services:
+  mysql_db:
+    image: mysql:8.0
+    container_name: app_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: voluntariaid_db
+      MYSQL_USER: voluntariaid_user
+      MYSQL_PASSWORD: voluntariaid_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql  # 🔑 Volume persistente
+      - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql # Script inicial
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping"]
+
+volumes:
+  mysql_data:  # Volume nomeado
