@@ -1,9 +1,11 @@
 package voluntariaid_backend.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import voluntariaid_backend.model.Voluntario;
+import voluntariaid_backend.dto.voluntario.VoluntarioCreateDTO;
+import voluntariaid_backend.dto.voluntario.VoluntarioResponseDTO;
 import voluntariaid_backend.service.VoluntarioService;
 
 import java.util.List;
@@ -16,30 +18,51 @@ public class VoluntarioController {
     private VoluntarioService service;
 
     @PostMapping
-    public ResponseEntity<?> criar(@RequestBody Voluntario voluntario) {
+    public ResponseEntity<?> criar(@RequestBody VoluntarioCreateDTO voluntario) {
         try {
-            Voluntario novo = service.salvar(voluntario);
-            return ResponseEntity.ok(novo);
+            VoluntarioResponseDTO response = service.salvar(voluntario);
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro interno no servidor");
         }
     }
 
+
     @GetMapping
-    public List<Voluntario> listarTodos() {
-        return service.listarTodos();
+    public ResponseEntity<List<VoluntarioResponseDTO>> listarTodos() {
+        try {
+            List<VoluntarioResponseDTO> voluntarios = service.listarTodos();
+            return ResponseEntity.ok(voluntarios);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Voluntario> buscarPorId(@PathVariable Long id) {
-        return service.buscarPorId(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<VoluntarioResponseDTO> buscarPorId(@PathVariable Long id) {
+        try {
+            VoluntarioResponseDTO voluntario = service.buscarPorId(id);
+            return ResponseEntity.ok(voluntario);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> excluir(@PathVariable Long id) {
-        service.excluir(id);
-        return ResponseEntity.noContent().build();
+        try {
+            service.excluir(id);
+            return ResponseEntity.noContent().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
     }
 }
