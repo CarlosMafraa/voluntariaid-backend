@@ -1,6 +1,8 @@
 package voluntariaid_backend.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import voluntariaid_backend.dto.voluntario.VoluntarioCreateDTO;
@@ -51,10 +53,9 @@ public class VoluntarioService {
     }
 
     @Transactional(readOnly = true)
-    public List<VoluntarioResponseDTO> listarTodos() {
-        return repository.findAll().stream()
-                .map(VoluntarioResponseDTO::new)
-                .collect(Collectors.toList());
+    public Page<VoluntarioResponseDTO> listarTodos(Pageable pageable) {
+        return repository.findAll(pageable)
+                .map(VoluntarioResponseDTO::new);
     }
 
     @Transactional(readOnly = true)

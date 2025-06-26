@@ -1,6 +1,9 @@
 package voluntariaid_backend.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,14 +36,11 @@ public class VoluntarioController {
 
 
     @GetMapping
-    public ResponseEntity<List<VoluntarioResponseDTO>> listarTodos() {
-        try {
-            List<VoluntarioResponseDTO> voluntarios = service.listarTodos();
-            return ResponseEntity.ok(voluntarios);
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().build();
-        }
+    public ResponseEntity<Page<VoluntarioResponseDTO>> listarTodos(Pageable pageable) {
+        Page<VoluntarioResponseDTO> voluntarios = service.listarTodos(pageable);
+        return ResponseEntity.ok(voluntarios);
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<VoluntarioResponseDTO> buscarPorId(@PathVariable Long id) {
