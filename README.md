@@ -1,4 +1,4 @@
-# Voluntariaid Backend
+# VoluntáriosConnect Backend
 
 Backend da aplicação Voluntariaid para cadastro de voluntários e missões sociais.
 
