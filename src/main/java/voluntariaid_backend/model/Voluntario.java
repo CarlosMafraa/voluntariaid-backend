@@ -2,6 +2,7 @@ package voluntariaid_backend.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
@@ -55,7 +56,19 @@ public class Voluntario {
         return Period.between(this.dataNascimento, LocalDate.now()).getYears();
     }
 
-    public Voluntario(Long id, String cpf, String passaporte, String nomeCompleto, LocalDate dataNascimento, Integer idade, String telefone, String email, TipoSanguineoEnum tipoSanguineo, String profissao, Integer anosExperiencia, SituacaoSaudeEnum situacaoSaude, List<Missao> missoes) {
+    public Voluntario(Long id,
+                      String cpf,
+                      String passaporte,
+                      String nomeCompleto,
+                      LocalDate dataNascimento,
+                      Integer idade,
+                      String telefone,
+                      String email,
+                      TipoSanguineoEnum tipoSanguineo,
+                      String profissao,
+                      Integer anosExperiencia,
+                      SituacaoSaudeEnum situacaoSaude,
+                      List<Missao> missoes) {
         this.id = id;
         this.cpf = cpf;
         this.passaporte = passaporte;

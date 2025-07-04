@@ -34,7 +34,6 @@ public class VoluntarioController {
         }
     }
 
-
     @GetMapping
     public ResponseEntity<Page<VoluntarioResponseDTO>> listarTodos(Pageable pageable) {
         Page<VoluntarioResponseDTO> voluntarios = service.listarTodos(pageable);

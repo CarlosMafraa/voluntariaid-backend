@@ -14,7 +14,7 @@ public class MissaoResponseDTO {
     private AvaliacaoEnum avaliacaoFinal;
     private String parecerCoordenador;
     private Cidade cidade;
-    private Voluntario voluntario; // Objeto completo
+    private Voluntario voluntario;
 
     public MissaoResponseDTO(voluntariaid_backend.model.Missao missao) {
         this.id = missao.getId();
