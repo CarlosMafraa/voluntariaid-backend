@@ -59,6 +59,15 @@ public class VoluntarioService {
     }
 
     @Transactional(readOnly = true)
+    public List<VoluntarioResponseDTO> listarVoluntarios() {
+        return repository.findAll()
+                .stream()
+                .map(VoluntarioResponseDTO::new)
+                .toList();
+    }
+
+
+    @Transactional(readOnly = true)
     public VoluntarioResponseDTO buscarPorId(Long id) {
         return repository.findById(id)
                 .map(VoluntarioResponseDTO::new)

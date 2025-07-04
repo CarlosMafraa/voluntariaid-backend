@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import voluntariaid_backend.dto.missao.MissaoCreateDTO;
 import voluntariaid_backend.dto.missao.MissaoResponseDTO;
+import voluntariaid_backend.dto.voluntario.VoluntarioResponseDTO;
 import voluntariaid_backend.model.Missao;
 import voluntariaid_backend.service.MissaoService;
 
@@ -33,17 +34,9 @@ public class MissaoController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<MissaoResponseDTO>> listar(
-            @RequestParam(defaultValue = "0") int pagina,
-            @RequestParam(defaultValue = "10") int tamanho) {
-
-        try {
-            Pageable pageable = PageRequest.of(pagina, tamanho);
-            Page<MissaoResponseDTO> missoes = service.listarTodas(pageable);
-            return ResponseEntity.ok(missoes);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+    public ResponseEntity<Page<MissaoResponseDTO>> listarTodos(Pageable pageable) {
+        Page<MissaoResponseDTO> voluntarios = service.listarTodas(pageable);
+        return ResponseEntity.ok(voluntarios);
     }
 
     @GetMapping("/{id}")

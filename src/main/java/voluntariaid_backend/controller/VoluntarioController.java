@@ -41,6 +41,12 @@ public class VoluntarioController {
         return ResponseEntity.ok(voluntarios);
     }
 
+    @GetMapping("/")
+    public ResponseEntity<List<VoluntarioResponseDTO>> listarTodos() {
+        List<VoluntarioResponseDTO> voluntarios = service.listarVoluntarios();
+        return ResponseEntity.ok(voluntarios);
+    }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<VoluntarioResponseDTO> buscarPorId(@PathVariable Long id) {
