@@ -1,100 +1,42 @@
-package voluntariaid_backend.model;
+package voluntariaid_backend.dto.voluntario;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
+import voluntariaid_backend.model.SituacaoSaudeEnum;
+import voluntariaid_backend.model.TipoSanguineoEnum;
 
 import java.time.LocalDate;
-import java.time.Period;
-import java.util.List;
 
-@Entity
-public class Voluntario {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(nullable = false, unique = true)
+public class VoluntarioCreateDTO {
     private String cpf;
-
-    @Column(nullable = false, unique = true)
     private String passaporte;
-
-    @Column(nullable = false)
     private String nomeCompleto;
-
-    @Column(nullable = false)
     private LocalDate dataNascimento;
-
-    @Transient
-    private Integer idade;
-
-    @Column(nullable = false)
     private String telefone;
-
-    @Column(nullable = false)
     private String email;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private TipoSanguineoEnum tipoSanguineo;
-
-    @Column(nullable = false)
     private String profissao;
-
-    @Column(nullable = false)
     private Integer anosExperiencia;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private SituacaoSaudeEnum situacaoSaude;
 
-    @OneToMany(mappedBy = "voluntario", cascade = CascadeType.ALL)
-    @JsonIgnore
-    private List<Missao> missoes;
-
-    public Integer getIdade() {
-        return Period.between(this.dataNascimento, LocalDate.now()).getYears();
+    // Construtores
+    public VoluntarioCreateDTO() {
     }
 
-    public Voluntario(Long id,
-                      String cpf,
-                      String passaporte,
-                      String nomeCompleto,
-                      LocalDate dataNascimento,
-                      Integer idade,
-                      String telefone,
-                      String email,
-                      TipoSanguineoEnum tipoSanguineo,
-                      String profissao,
-                      Integer anosExperiencia,
-                      SituacaoSaudeEnum situacaoSaude,
-                      List<Missao> missoes) {
-        this.id = id;
+    public VoluntarioCreateDTO(String cpf, String passaporte, String nomeCompleto, LocalDate dataNascimento,
+                               String telefone, String email, TipoSanguineoEnum tipoSanguineo,
+                               String profissao, Integer anosExperiencia, SituacaoSaudeEnum situacaoSaude) {
         this.cpf = cpf;
         this.passaporte = passaporte;
         this.nomeCompleto = nomeCompleto;
         this.dataNascimento = dataNascimento;
-        this.idade = idade;
         this.telefone = telefone;
         this.email = email;
         this.tipoSanguineo = tipoSanguineo;
         this.profissao = profissao;
         this.anosExperiencia = anosExperiencia;
         this.situacaoSaude = situacaoSaude;
-        this.missoes = missoes;
     }
 
-    public Voluntario() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
+    // Getters e Setters
     public String getCpf() {
         return cpf;
     }
@@ -125,10 +67,6 @@ public class Voluntario {
 
     public void setDataNascimento(LocalDate dataNascimento) {
         this.dataNascimento = dataNascimento;
-    }
-
-    public void setIdade(Integer idade) {
-        this.idade = idade;
     }
 
     public String getTelefone() {
@@ -177,13 +115,5 @@ public class Voluntario {
 
     public void setSituacaoSaude(SituacaoSaudeEnum situacaoSaude) {
         this.situacaoSaude = situacaoSaude;
-    }
-
-    public List<Missao> getMissoes() {
-        return missoes;
-    }
-
-    public void setMissoes(List<Missao> missoes) {
-        this.missoes = missoes;
     }
 }
